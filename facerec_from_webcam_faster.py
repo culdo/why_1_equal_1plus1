@@ -36,16 +36,16 @@ known_face_names = [
 
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
-#
-# for i in range (1,len(known_face_names)+1,1):
-#     jpg_name = str(i)+".jpg"
-#     print(jpg_name)
-#     # print(name_list[i-1])
-#     known_face_encodings.append(face_recognition.face_encodings(face_recognition.load_image_file(jpg_name))[0])
+old_name = [
+    file.split('.')[0] for file in os.listdir() if file.endswith(".jpg")
+]
+
+
+picture_num = len(known_face_names)
 for fn in known_face_names:
+    print(fn)
     jpg_name = fn+".jpg"
-    print(jpg_name)
-    # print(name_list[i-1])
+    
     known_face_encodings.append(face_recognition.face_encodings(face_recognition.load_image_file(jpg_name))[0])
 
 # Initialize some variables
@@ -56,6 +56,20 @@ process_this_frame = True
 s2= "init"
 
 while True:
+    known_face_names = [
+        file.split('.')[0] for file in os.listdir() if file.endswith(".jpg")
+    ]
+    if picture_num < len(known_face_names):
+        for filn in known_face_names:
+            if filn not in old_name:
+                print(filn)
+                jpg_name = filn + ".jpg"
+                known_face_encodings.append(
+                face_recognition.face_encodings(face_recognition.load_image_file(jpg_name))[0])
+                old_name = [
+                    file.split('.')[0] for file in os.listdir() if file.endswith(".jpg")]
+                picture_num = len(known_face_names)
+       
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
