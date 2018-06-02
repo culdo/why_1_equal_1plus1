@@ -1,6 +1,8 @@
-
+import numpy as np
 import face_recognition
 import cv2
+import time
+
 
 known_face_encodings = []
 known_face_names = [
@@ -8,6 +10,8 @@ known_face_names = [
     "2",
     "3"
 ]
+
+name_count = np.zeros(len(known_face_names))
 
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
@@ -64,9 +68,29 @@ while True:
         right *= 4
         bottom *= 4
         left *= 4
+#===============================
+        for name_index in range (0,len(known_face_names),1):
+            if known_face_names[name_index] == name:
+                # print(known_face_names[name_index])
+                if name_count[name_index] == 0:
+                    name_count[name_index] = 1
+                    # print(name_count[name_index])
+                    timestart =time.time()
+                    # ttstart=time.time()
+                    print(name)
+
+                else:
+                    if (time.time()-timestart) > 10:
+                        print(name)
+                        # print(time.time()-timestart)
+                    # elif (time.time()-ttstart) >
+                        # timestart = time.time()
+#=====================================
+
+        # print(name)
 
         # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
 
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
