@@ -65,6 +65,22 @@ end
 
 loop do
 # read command from standard input:
+    last_chat=browser.divs(css: ".MdRGT07Cont").last
+    if last_chat.attribute_value("data-local-id")!= $get
+        if (last_image=last_chat.div(css:".mdRGT07Body .mdRGT07Msg.mdRGT07Image")).present?
+            if last_chat.div(css: ".mdRGT07Ttl").present?
+                $user = last_chat.div(css: ".mdRGT07Ttl").text
+            else
+                $user = '我'
+            end
+            browser.buttons(id:"_chat_message_image_save").last.click
+            sleep(1)
+            f = Dir.entries(Dir.pwd).reject{|f|File.ftype(f)!='file'}.sort_by{|f| File.mtime(f)}.last
+            File.rename(f, "#{$user}.jpg") if Time.now-File.mtime(f)<3
+            $get = last_chat.attribute_value("data-local-id")
+            
+        end
+    end
     if cmd = STDIN.gets
         # remove whitespaces:
         cmd.chop!
