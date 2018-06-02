@@ -1,1 +1,2 @@
-# why_1_equal_1plus1
+# 屏東大學黑客松 為什麼i=i+1 Team
+## 
