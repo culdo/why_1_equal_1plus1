@@ -78,7 +78,7 @@ loop do
             f = Dir.entries(Dir.pwd).reject{|f|File.ftype(f)!='file'}.sort_by{|f| File.mtime(f)}.last
             File.rename(f, "#{$user}.jpg") if Time.now-File.mtime(f)<3
             $get = last_chat.attribute_value("data-local-id")
-            
+
         end
     end
     if cmd = STDIN.gets
